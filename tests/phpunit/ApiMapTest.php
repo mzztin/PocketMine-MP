@@ -40,24 +40,19 @@ class ApiMapTest extends TestCase{
 	}
 
 	public function testWrongInheritance() : void{
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage('$impl is an instance of pocketmine\ApiMap, which does not extend/implement pocketmine\ApiMapTest');
 		$apiMap = new ApiMap;
-		try{
-			$apiMap->provideApi(self::class, null, new ApiMap);
-			self::assertFalse(true, "provideApi should throw exception");
-		}catch(InvalidArgumentException $e){
-			self::assertSame($e->getMessage(), '$impl is an instance of pocketmine\ApiMap, which does not extend/implement pocketmine\ApiMapTest');
-		}
+		$apiMap->provideApi(self::class, null, new ApiMap);
 	}
 
 	public function testConflict() : void{
+		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage("Multiple plugins (PocketMine, PocketMine) are providing (api map test purpose). Please disable one of them or check configuration.");
+
 		$apiMap = new ApiMap;
-		try{
-			$apiMap->provideApi(self::class, null, $this);
-			$apiMap->provideApi(self::class, null, $this);
-			self::assertFalse(true, "provideApi should throw exception");
-		}catch(RuntimeException $e){
-			self::assertSame($e->getMessage(), "Multiple plugins (PocketMine, PocketMine) are providing (api map test purpose). Please disable one of them or check configuration.");
-		}
+		$apiMap->provideApi(self::class, null, $this);
+		$apiMap->provideApi(self::class, null, $this);
 	}
 
 	public function testDefault() : void{
