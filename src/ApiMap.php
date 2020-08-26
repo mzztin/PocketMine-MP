@@ -92,7 +92,7 @@ final class ApiMap{
 	/**
 	 * @see Server#getApi
 	 *
-	 * @template T
+	 * @template T of object
 	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
 	 * @param bool $default
@@ -104,7 +104,9 @@ final class ApiMap{
 			return null;
 		}
 		$default = $this->apiMap[$interface]["default"];
-		return $this->apiMap[$interface]["impl"];
+		/** @var T $impl */
+		$impl = $this->apiMap[$interface]["impl"];
+		return $impl;
 	}
 }
 
