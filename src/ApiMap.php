@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace pocketmine;
 
 use function get_class;
+use function is_string;
 use InvalidArgumentException;
 use ReflectionClass;
 use RuntimeException;
@@ -43,7 +44,7 @@ final class ApiMap{
 	/**
 	 * @see Server#provideApi
 	 *
-	 * @template T
+	 * @template T of object
 	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
 	 * @param Plugin|null $plugin
@@ -68,7 +69,8 @@ final class ApiMap{
 				$pluginName = $plugin !== null ? $plugin->getName() : "PocketMine";
 
 				$class = new ReflectionClass($interface);
-				$tags = Utils::parseDocComment($class->getDocComment());
+				$doc = $class->getDocComment();
+				$tags = is_string($doc) ? Utils::parseDocComment($doc) : [];
 				$purpose = $tags["purpose"] ?? "an implementation of $interface";
 
 				// TODO switch to user-friendly exceptions
@@ -93,7 +95,8 @@ final class ApiMap{
 	 * @template T
 	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
-	 * @param bool &$default
+	 * @param bool $default
+	 * @return object|null
 	 * @phpstan-return T|null
 	 */
 	public function getApi(string $interface, bool &$default = false) : ?object {

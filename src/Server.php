@@ -443,15 +443,15 @@ class Server{
 	 * The default implementation (usually provided by the module declaring the interface)
 	 * should set the `$default` praameter to `true` so that other plugins can override it without triggering errors.
 	 *
-	 * @template T
+	 * @template T of object
 	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
 	 * @param object $impl
 	 * @phpstan-param T $impl
 	 * @param bool $default
 	 *
-	 * @throws InvalidArgumentException if $impl is not an instance of $interface
-	 * @throws RuntimeException if two non-default APIs are provided for the same interface
+	 * @throws \InvalidArgumentException if $impl is not an instance of $interface
+	 * @throws \RuntimeException if two non-default APIs are provided for the same interface
 	 */
 	public function provideApi(string $interface, Plugin $plugin, object $impl, bool $default = false) : void{
 		$this->apiMap->provideApi($interface, $plugin, $impl, $default);
@@ -465,7 +465,8 @@ class Server{
 	 * @template T
 	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
-	 * @param bool &$default
+	 * @param bool $default
+	 * @return object|null
 	 * @phpstan-return T|null
 	 */
 	public function getApi(string $interface, bool &$default = false) : ?object {

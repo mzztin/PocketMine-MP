@@ -36,7 +36,7 @@ class ApiMapTest extends TestCase{
 		$apiMap = new ApiMap;
 		$apiMap->provideApi(TestCase::class, null, $this);
 		self::assertSame($this, $apiMap->getApi(TestCase::class));
-		self::assertSame(null, $apiMap->getApi(self::class));
+		self::assertNull($apiMap->getApi(self::class));
 	}
 
 	public function testWrongInheritance() : void{
