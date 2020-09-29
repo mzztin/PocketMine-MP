@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace pocketmine;
+namespace pocketmine\plugin;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +41,7 @@ class ApiMapTest extends TestCase{
 
 	public function testWrongInheritance() : void{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage('$impl is an instance of pocketmine\ApiMap, which does not extend/implement pocketmine\ApiMapTest');
+		$this->expectExceptionMessage('$impl is an instance of pocketmine\plugin\ApiMap, which does not extend/implement pocketmine\plugin\ApiMapTest');
 		$apiMap = new ApiMap;
 		$apiMap->provideApi(self::class, null, new ApiMap);
 	}
