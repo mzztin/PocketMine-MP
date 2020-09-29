@@ -445,7 +445,6 @@ class Server{
 	 * should call `provideDefaultApi` so that other plugins can override it without triggering errors.
 	 *
 	 * @template T of object
-	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
 	 * @param object $impl
 	 * @phpstan-param T $impl
