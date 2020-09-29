@@ -28,7 +28,6 @@ use function is_string;
 use InvalidArgumentException;
 use ReflectionClass;
 use RuntimeException;
-use pocketmine\plugin\Plugin;
 use pocketmine\utils\Utils;
 
 /**
@@ -36,8 +35,8 @@ use pocketmine\utils\Utils;
  */
 final class ApiMap{
 	/**
-	 * @var object[][]|Plugin[][]|null[][]
-	 * @phpstan-var array<class-string, array{plugin: Plugin|null, impl: object, default: bool}>
+	 * @var ApiMapEntry[]
+	 * @phpstan-var array<class-string, ApiMapEntry>
 	 */
 	private $apiMap = [];
 
@@ -62,9 +61,9 @@ final class ApiMap{
 		}
 
 		if(isset($this->apiMap[$interface])){
-			if(!$this->apiMap[$interface]["default"] && !$default) {
+			if(!$this->apiMap[$interface]->default && !$default) {
 				// two non-default implementations
-				$otherPlugin = $this->apiMap[$interface]["plugin"];
+				$otherPlugin = $this->apiMap[$interface]->plugin;
 				$otherPluginName = $otherPlugin !== null ? $otherPlugin->getName() : "PocketMine";
 				$pluginName = $plugin !== null ? $plugin->getName() : "PocketMine";
 
@@ -82,11 +81,11 @@ final class ApiMap{
 			}
 		}
 
-		$this->apiMap[$interface] = [
-			"plugin" => $plugin,
-			"impl" => $impl,
-			"default" => $default,
-		];
+		$entry = new ApiMapEntry;
+		$entry->plugin = $plugin;
+		$entry->impl = $impl;
+		$entry->default = $default;
+		$this->apiMap[$interface] = $entry;
 	}
 
 	/**
@@ -103,9 +102,9 @@ final class ApiMap{
 		if(!isset($this->apiMap[$interface])) {
 			return null;
 		}
-		$default = $this->apiMap[$interface]["default"];
+		$default = $this->apiMap[$interface]->default;
 		/** @var T $impl */
-		$impl = $this->apiMap[$interface]["impl"];
+		$impl = $this->apiMap[$interface]->impl;
 		return $impl;
 	}
 }
