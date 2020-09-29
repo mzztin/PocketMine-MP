@@ -491,7 +491,7 @@ class Server{
 	 * @phpstan-return T|null
 	 */
 	public function getApi(string $interface, bool &$default = false) : ?object {
-		return $this->apiMap->getApi($interface);
+		return $this->apiMap->getApi($interface, $default);
 	}
 
 	/**
