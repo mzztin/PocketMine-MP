@@ -455,7 +455,7 @@ class Server{
 	 *
 	 * @see #provideDefaultApi
 	 */
-	public function provideApi(string $interface, Plugin $plugin, object $impl, bool $default = false) : void{
+	public function provideApi(string $interface, Plugin $plugin, object $impl) : void{
 		$this->apiMap->provideApi($interface, $plugin, $impl, false);
 	}
 
