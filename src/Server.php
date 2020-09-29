@@ -427,7 +427,7 @@ class Server{
 	 *
 	 * The $interface is used to identify various API types,
 	 * and users should not try to provide APIs for two $interfaces that extend one another.
-	 * For example, PocketMine can provide a BanList interface provides an interface to track user bans,
+	 * For example, PocketMine can provide a default BanList interface provides an interface to track user bans,
 	 * which calls `provideApi(BanList::class)`, but it does not call `provideApi(DefaultBanList::class)`.
 	 * Nevertheless, if alternative implementations are not intended,
 	 * it is fine to provide $interface as the final class.
@@ -441,20 +441,40 @@ class Server{
 	 * > Multiple plugins are providing ban list. Please disable one of them or check configuration
 	 *
 	 * The default implementation (usually provided by the module declaring the interface)
-	 * should set the `$default` praameter to `true` so that other plugins can override it without triggering errors.
+	 * should call `provideDefaultApi` so that other plugins can override it without triggering errors.
 	 *
 	 * @template T of object
 	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
 	 * @param object $impl
 	 * @phpstan-param T $impl
-	 * @param bool $default
 	 *
 	 * @throws \InvalidArgumentException if $impl is not an instance of $interface
 	 * @throws \RuntimeException if two non-default APIs are provided for the same interface
+	 *
+	 * @see #provideDefaultApi
 	 */
 	public function provideApi(string $interface, Plugin $plugin, object $impl, bool $default = false) : void{
-		$this->apiMap->provideApi($interface, $plugin, $impl, $default);
+		$this->apiMap->provideApi($interface, $plugin, $impl, false);
+	}
+
+	/**
+	 * Provides a *default* API implementation of $interface.
+	 *
+	 * `provideDefaultApi` must only be called exactly once, by the module that declared `$interface`.
+	 *
+	 * @template T of object
+	 * @param string $interface
+	 * @phpstan-param class-string<T> $interface
+	 * @param object $impl
+	 * @phpstan-param T $impl
+	 *
+	 * @throws \InvalidArgumentException if $impl is not an instance of $interface
+	 *
+	 * @see #provideApi for detailed semantics of API provision
+	 */
+	public function provideDefaultApi(string $interface, Plugin $plugin, object $impl) : void{
+		$this->apiMap->provideApi($interface, $plugin, $impl, true);
 	}
 
 	/**
