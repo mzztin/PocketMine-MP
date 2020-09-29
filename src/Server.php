@@ -480,7 +480,6 @@ class Server{
 	 * Callers can check whether this implementation is default by getting `$default` by reference.
 	 *
 	 * @template T of object
-	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
 	 * @param bool $default
 	 * @return object|null
