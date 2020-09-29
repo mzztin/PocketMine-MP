@@ -463,7 +463,6 @@ class Server{
 	 * `provideDefaultApi` must only be called exactly once, by the module that declared `$interface`.
 	 *
 	 * @template T of object
-	 * @param string $interface
 	 * @phpstan-param class-string<T> $interface
 	 * @param object $impl
 	 * @phpstan-param T $impl
