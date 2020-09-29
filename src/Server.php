@@ -451,7 +451,7 @@ class Server{
 	 * @throws \InvalidArgumentException if $impl is not an instance of $interface
 	 * @throws \RuntimeException if two non-default APIs are provided for the same interface
 	 *
-	 * @see #provideDefaultApi
+	 * @see Server::provideDefaultApi()
 	 */
 	public function provideApi(string $interface, Plugin $plugin, object $impl) : void{
 		$this->apiMap->provideApi($interface, $plugin, $impl, false);
