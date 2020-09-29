@@ -446,7 +446,6 @@ class Server{
 	 *
 	 * @template T of object
 	 * @phpstan-param class-string<T> $interface
-	 * @param object $impl
 	 * @phpstan-param T $impl
 	 *
 	 * @throws \InvalidArgumentException if $impl is not an instance of $interface
