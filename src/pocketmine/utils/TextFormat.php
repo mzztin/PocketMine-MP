@@ -66,7 +66,8 @@ abstract class TextFormat{
 	public const LIGHT_PURPLE = TextFormat::ESCAPE . "d";
 	public const YELLOW = TextFormat::ESCAPE . "e";
 	public const WHITE = TextFormat::ESCAPE . "f";
-
+	public const MINECOIN_GOLD = TextFormat::ESCAPE . "g";
+	
 	public const OBFUSCATED = TextFormat::ESCAPE . "k";
 	public const BOLD = TextFormat::ESCAPE . "l";
 	public const STRIKETHROUGH = TextFormat::ESCAPE . "m";
@@ -300,6 +301,10 @@ abstract class TextFormat{
 					$pointer->color = "white";
 					$color = "white";
 					break;
+				case TextFormat::MINECOIN_GOLD:
+					$pointer->color = "minecoin_gold";
+					$color = "minecoin_gold";
+					break;
 				default:
 					$pointer->text = $token;
 					break;
@@ -422,6 +427,10 @@ abstract class TextFormat{
 					break;
 				case TextFormat::WHITE:
 					$newString .= "<span style=color:#FFF>";
+					++$tokens;
+					break;
+				case TextFormat::MINECOIN_GOLD:
+					$newString .= "<span style=color:#DDD605>";
 					++$tokens;
 					break;
 				default:
